@@ -8,7 +8,9 @@ fn main() {
         test_read_file_content("Cargo.lock".to_string())
     );
 
-    test_read_file_iter("Cargo.lock".to_string())
+    test_read_file_iter("Cargo.lock".to_string());
+
+    test_read_file_with_filter("Cargo.lock".to_string())
 }
 
 
@@ -22,5 +24,14 @@ fn test_read_file_iter(filename: String) {
     let file = BufReader::new(file);
     for line in file.lines() {
         println!("{}", line.unwrap())
+    }
+}
+
+// 读取每行可能错误，过滤错误的读取行
+fn test_read_file_with_filter(filename: String) {
+    let file = File::open(filename).expect("can't open file");
+    let file = BufReader::new(file);
+    for line in file.lines().filter_map(|result|result.ok()) {
+        println!("{}", line)
     }
 }

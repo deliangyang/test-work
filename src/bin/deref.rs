@@ -47,3 +47,10 @@ impl<T> Deref for MyBox<T> {
         &self.0
     }
 }
+
+// 编译器会自动插入清理代码，不需要手动编写，释放box所指向的堆空间
+impl<T> Drop for MyBox<T> {
+    fn drop(&mut self) {
+        println!("drop done")
+    }
+}

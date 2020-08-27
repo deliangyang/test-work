@@ -19,7 +19,7 @@ impl ListNode {
 pub struct Solution {}
 
 impl Solution {
-    pub fn kth_to_last(head: Option<Box<ListNode>>, k: i32) -> i32 {
+    pub fn kth_to_last(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
         let mut fast = &head;
         let mut slow = &head;
 
@@ -34,7 +34,7 @@ impl Solution {
             slow = &s.next;
         }
 
-        slow.as_ref().unwrap().val
+        slow.clone()
     }
 }
 
@@ -49,7 +49,7 @@ mod tests {
         let h = Some(Box::new(b));
         println!("{:?}", h);
 
-        let s = Solution::kth_to_last(h, 2);
-        println!("{}", s)
+        let s = Solution::kth_to_last(h, 1);
+        println!("{:?}", s)
     }
 }

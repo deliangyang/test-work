@@ -9,3 +9,4 @@ edition = "2018"
 proc-macro=true
 
 [dependencies]
+url = "2.1.1"

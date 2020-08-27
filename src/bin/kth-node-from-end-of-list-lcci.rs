@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 // Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
@@ -19,17 +21,15 @@ pub struct Solution {}
 
 impl Solution {
     pub fn kth_to_last(head: Option<Box<ListNode>>, k: i32) -> i32 {
-        let mut root = head.clone();
-        let mut s1 = 0;
-        let mut root2 = head.clone();
-        while s1 < k {
-            s1 += 1;
+        let mut root = &head;
+        let mut root2 = &head;
+        for _ in 0..k {
             match root {
                 None => {
-                    break
-                },
+                    break;
+                }
                 Some(node) => {
-                    root = node.next;
+                    root = node.next.borrow();
                 }
             }
         }
@@ -39,8 +39,15 @@ impl Solution {
                     break;
                 }
                 Some(node) => {
-                    root = node.next;
-                    root2 = root2.unwrap().next
+                    root = node.next.borrow();
+                    match root2 {
+                        None => {
+                            break
+                        },
+                        Some(n) => {
+                            root2 = n.next.borrow()
+                        }
+                    }
                 }
             };
         }
@@ -66,7 +73,7 @@ mod tests {
         let h = Some(Box::new(b));
         println!("{:?}", h);
 
-        let s = Solution::kth_to_last(h, 1);
+        let s = Solution::kth_to_last(h, 2);
         println!("{}", s)
     }
 }
